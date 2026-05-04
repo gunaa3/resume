@@ -8,16 +8,8 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#F4F1EC;
-  --bg2:#EDEAE3;
-  --card:#FAFAF8;
-  --ink:#1C1A17;
-  --ink2:#6B6860;
-  --ink3:#A8A69F;
-  --accent:#B85C2A;
-  --accent-bg:#F5E4D9;
-  --border:rgba(28,26,23,0.1);
-  --border2:rgba(28,26,23,0.07);
+  --bg:#F4F1EC;--bg2:#EDEAE3;--card:#FAFAF8;--ink:#1C1A17;--ink2:#6B6860;
+  --ink3:#A8A69F;--accent:#B85C2A;--accent-bg:#F5E4D9;--border:rgba(28,26,23,0.1);--border2:rgba(28,26,23,0.07);
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;min-height:100vh}
@@ -28,6 +20,9 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:0.5px s
 .nav-right a{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink2);text-decoration:none;transition:color 0.2s}
 .nav-right a:hover{color:var(--accent)}
 .nav-badge{font-size:0.7rem;padding:4px 10px;border:0.5px solid var(--border);border-radius:20px;color:var(--ink2);letter-spacing:0.06em}
+.nav-admin-btn{font-size:0.7rem;padding:4px 12px;border:0.5px solid var(--border);border-radius:20px;color:var(--ink3);background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.nav-admin-btn:hover{border-color:var(--accent);color:var(--accent)}
+.nav-admin-btn.unlocked{color:var(--accent);border-color:var(--accent-bg);background:var(--accent-bg)}
 
 .hero{max-width:1080px;margin:0 auto;padding:7rem 5vw 5rem;display:grid;grid-template-columns:3fr 2fr;gap:5rem;align-items:center}
 .hero-eyebrow{font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
@@ -54,12 +49,14 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:0.5px s
 .filter-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
 
 .project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
-.project-card{background:var(--card);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s}
+.project-card{background:var(--card);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s;position:relative}
 .project-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(28,26,23,0.09)}
 .project-card.hidden{display:none}
 
 .pc-thumb{height:156px;display:flex;align-items:center;justify-content:center;font-size:3rem}
-.t1{background:#EAF2EA}.t2{background:#E8EEF8}.t3{background:#F8EEE8}.t4{background:#EEE8F8}.t5{background:#F8F4E8}.t6{background:#E8F4F4}.t7{background:#F4E8F4}.t8{background:#F4F0E8}
+.t1{background:#EAF2EA}.t2{background:#E8EEF8}.t3{background:#F8EEE8}.t4{background:#EEE8F8}
+.t5{background:#F8F4E8}.t6{background:#E8F4F4}.t7{background:#F4E8F4}.t8{background:#F4F0E8}
+.t9{background:#EAF0F8}.t10{background:#F0EAF8}
 
 .pc-body{padding:1.4rem}
 .pc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:0.85rem}
@@ -77,6 +74,42 @@ nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:0.5px s
 .pc-stack{display:flex;gap:4px}
 .dot{width:7px;height:7px;border-radius:50%}
 
+.delete-btn{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;background:rgba(28,26,23,0.08);border:none;cursor:pointer;font-size:0.75rem;color:var(--ink3);display:none;align-items:center;justify-content:center;transition:all 0.2s}
+.delete-btn:hover{background:#fee;color:#c00}
+.admin-mode .delete-btn{display:flex}
+
+/* ADD PANEL */
+.add-panel{display:none;background:var(--card);border:0.5px solid var(--border);border-radius:14px;padding:2rem;margin-bottom:2rem}
+.add-panel.visible{display:block}
+.add-panel h3{font-family:'DM Serif Display',serif;font-size:1.3rem;margin-bottom:1.5rem;letter-spacing:-0.01em}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:0.72rem;color:var(--ink3);letter-spacing:0.08em;text-transform:uppercase}
+.form-group input,.form-group textarea,.form-group select{font-family:'DM Sans',sans-serif;font-size:0.85rem;padding:8px 12px;border:0.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--ink);outline:none;transition:border-color 0.2s;font-weight:300}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--accent)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-actions{display:flex;gap:10px;margin-top:0.5rem}
+.btn-add{font-size:0.8rem;padding:10px 22px;border-radius:8px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.2s}
+.btn-add:hover{background:var(--accent)}
+.btn-cancel{font-size:0.8rem;padding:10px 18px;border-radius:8px;background:transparent;color:var(--ink2);border:0.5px solid var(--border);cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* PASSWORD MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(28,26,23,0.5);z-index:999;display:none;align-items:center;justify-content:center}
+.modal-overlay.visible{display:flex}
+.modal{background:var(--card);border-radius:16px;padding:2.5rem;width:340px;border:0.5px solid var(--border)}
+.modal h3{font-family:'DM Serif Display',serif;font-size:1.4rem;margin-bottom:0.5rem;letter-spacing:-0.01em}
+.modal p{font-size:0.82rem;color:var(--ink2);margin-bottom:1.5rem}
+.modal input{width:100%;font-family:'DM Sans',sans-serif;font-size:1rem;padding:10px 14px;border:0.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--ink);outline:none;letter-spacing:0.2em;margin-bottom:0.75rem}
+.modal input:focus{border-color:var(--accent)}
+.modal-error{font-size:0.78rem;color:#c00;margin-bottom:0.75rem;display:none}
+.modal-btns{display:flex;gap:8px}
+.modal-btns button{flex:1;font-family:'DM Sans',sans-serif;font-size:0.82rem;padding:10px;border-radius:8px;cursor:pointer;transition:all 0.2s}
+.btn-confirm{background:var(--ink);color:#fff;border:none}
+.btn-confirm:hover{background:var(--accent)}
+.btn-close-modal{background:transparent;color:var(--ink2);border:0.5px solid var(--border)}
+
+/* ABOUT */
 .about-strip{background:var(--ink);color:#fff;padding:5rem 5vw}
 .about-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
 .about-left p{font-family:'DM Serif Display',serif;font-size:clamp(1.4rem,3vw,2.1rem);line-height:1.38;letter-spacing:-0.02em;color:#fff}
@@ -101,32 +134,38 @@ footer p{font-size:0.72rem;color:var(--ink3);letter-spacing:0.04em}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .hero{animation:fadeUp 0.65s ease both}
-.project-card{animation:fadeUp 0.5s ease both}
-.project-card:nth-child(1){animation-delay:.05s}
-.project-card:nth-child(2){animation-delay:.1s}
-.project-card:nth-child(3){animation-delay:.15s}
-.project-card:nth-child(4){animation-delay:.2s}
-.project-card:nth-child(5){animation-delay:.25s}
-.project-card:nth-child(6){animation-delay:.3s}
-.project-card:nth-child(7){animation-delay:.35s}
-.project-card:nth-child(8){animation-delay:.4s}
 
 @media(max-width:700px){
   .hero{grid-template-columns:1fr;gap:3rem;padding:4rem 5vw 3rem}
   .about-inner{grid-template-columns:1fr;gap:2.5rem}
   .nav-badge{display:none}
+  .form-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
+
+<!-- PASSWORD MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>관리자 모드</h3>
+    <p>비밀번호를 입력하면 프로젝트를 추가·삭제할 수 있습니다.</p>
+    <input type="password" id="pwInput" placeholder="••••" onkeydown="if(event.key==='Enter')confirmPw()">
+    <div class="modal-error" id="pwError">비밀번호가 틀렸어요.</div>
+    <div class="modal-btns">
+      <button class="btn-close-modal" onclick="closeModal()">취소</button>
+      <button class="btn-confirm" onclick="confirmPw()">확인</button>
+    </div>
+  </div>
+</div>
 
 <nav>
   <a class="nav-logo" href="#">Yuna Park</a>
   <div class="nav-right">
     <a href="#projects">Projects</a>
     <a href="#about">About</a>
-    <a href="#contact">Contact</a>
     <span class="nav-badge">BizOps · Automation</span>
+    <button class="nav-admin-btn" id="adminBtn" onclick="toggleAdmin()">🔒 관리</button>
   </div>
 </nav>
 
@@ -138,7 +177,7 @@ footer p{font-size:0.72rem;color:var(--ink3);letter-spacing:0.04em}
   </div>
   <div>
     <div class="hero-cards">
-      <div class="hc"><div class="hc-n">8<span>+</span></div><div class="hc-l">자동화 프로젝트</div></div>
+      <div class="hc"><div class="hc-n" id="statCount">8<span>+</span></div><div class="hc-l">자동화 프로젝트</div></div>
       <div class="hc"><div class="hc-n">7<span>yr</span></div><div class="hc-l">무역·Ops 실무</div></div>
       <div class="hc"><div class="hc-n">90<span>%</span></div><div class="hc-l">업무시간 단축</div></div>
       <div class="hc"><div class="hc-n">6<span>개국</span></div><div class="hc-l">Cross-border Ops</div></div>
@@ -152,6 +191,67 @@ footer p{font-size:0.72rem;color:var(--ink3);letter-spacing:0.04em}
   <div class="section-label">Work · Projects</div>
   <div class="section-title">직접 만든 것들</div>
 
+  <!-- ADD PANEL (admin only) -->
+  <div class="add-panel" id="addPanel">
+    <h3>새 프로젝트 추가</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>제목</label>
+        <input type="text" id="f-title" placeholder="커미션 계산 자동화">
+      </div>
+      <div class="form-group">
+        <label>이모지 아이콘</label>
+        <input type="text" id="f-emoji" placeholder="💡" maxlength="4">
+      </div>
+      <div class="form-group full">
+        <label>설명</label>
+        <textarea id="f-desc" placeholder="어떤 문제를 해결했는지 간단히 설명..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>임팩트 (↑ 뒤에 붙는 문구)</label>
+        <input type="text" id="f-impact" placeholder="처리 시간 80% 단축">
+      </div>
+      <div class="form-group">
+        <label>블로그 링크</label>
+        <input type="text" id="f-link" placeholder="https://small-vegi.tistory.com/27">
+      </div>
+      <div class="form-group">
+        <label>기술 스택 태그 (쉼표 구분)</label>
+        <input type="text" id="f-tags-display" placeholder="Python, Excel">
+      </div>
+      <div class="form-group">
+        <label>필터 카테고리</label>
+        <select id="f-filter">
+          <option value="html">HTML · Web</option>
+          <option value="excel">Excel</option>
+          <option value="python">Python</option>
+          <option value="ai">AI</option>
+          <option value="html excel">HTML + Excel</option>
+          <option value="python excel">Python + Excel</option>
+          <option value="html ai">HTML + AI</option>
+          <option value="ai python">AI + Python</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>카드 배경색</label>
+        <select id="f-thumb">
+          <option value="t9">파랑 계열</option>
+          <option value="t10">보라 계열</option>
+          <option value="t1">초록 계열</option>
+          <option value="t2">파랑 연한</option>
+          <option value="t3">주황 계열</option>
+          <option value="t4">보라 연한</option>
+          <option value="t5">노랑 계열</option>
+          <option value="t6">청록 계열</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-add" onclick="addProject()">추가하기</button>
+      <button class="btn-cancel" onclick="toggleAddPanel()">취소</button>
+    </div>
+  </div>
+
   <div class="filter-row">
     <button class="filter-btn active" onclick="filterProjects('all',this)">전체</button>
     <button class="filter-btn" onclick="filterProjects('excel',this)">Excel</button>
@@ -160,121 +260,7 @@ footer p{font-size:0.72rem;color:var(--ink3);letter-spacing:0.04em}
     <button class="filter-btn" onclick="filterProjects('ai',this)">AI</button>
   </div>
 
-  <div class="project-grid" id="projectGrid">
-
-    <div class="project-card" data-tags="excel html">
-      <div class="pc-thumb t1">📄</div>
-      <div class="pc-body">
-        <div class="pc-tags"><span class="pc-tag hi">Excel · Word</span><span class="pc-tag">Sales Ops</span></div>
-        <div class="pc-title">계약서 자동 생성기</div>
-        <div class="pc-desc">매번 복사·붙여넣기하던 계약서 작업을 웹 기반 툴 하나로 끝냈습니다. 병원명·원장명·주소·제품·금액을 입력하면 Word 파일이 자동 생성됩니다.</div>
-        <div class="pc-impact">작성 시간 50%+ 단축 · 팀 전원 도입</div>
-      </div>
-      <div class="pc-footer">
-        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
-        <div class="pc-stack"><div class="dot" style="background:#217346"></div><div class="dot" style="background:#2B5797"></div></div>
-      </div>
-    </div>
-
-    <div class="project-card" data-tags="html">
-      <div class="pc-thumb t2">📊</div>
-      <div class="pc-body">
-        <div class="pc-tags"><span class="pc-tag hi">HTML · JS</span><span class="pc-tag">Dashboard</span></div>
-        <div class="pc-title">영업 실적 대시보드</div>
-        <div class="pc-desc">일별·주별·월별·분기·연도별 뷰를 지원하는 HTML 대시보드. KPI 카드, 담당자별 성과, 지역별 매출 차트, 대표 보고용 BI 리포트 페이지까지 포함합니다.</div>
-        <div class="pc-impact">경영진 보고 자동화 · 분기 리포팅 시간 대폭 단축</div>
-      </div>
-      <div class="pc-footer">
-        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
-        <div class="pc-stack"><div class="dot" style="background:#E34F26"></div><div class="dot" style="background:#F7DF1E"></div></div>
-      </div>
-    </div>
-
-    <div class="project-card" data-tags="html">
-      <div class="pc-thumb t3">🚚</div>
-      <div class="pc-body">
-        <div class="pc-tags"><span class="pc-tag hi">HTML · JS</span><span class="pc-tag">Logistics</span></div>
-        <div class="pc-title">배차 메시지 생성기</div>
-        <div class="pc-desc">상·하차지 주소, 담당자 연락처, 시간 정보를 입력하면 배차 메시지가 자동 완성됩니다. 물류 현장의 가장 반복적인 루틴을 클릭 몇 번으로 끝냅니다.</div>
-        <div class="pc-impact">오배송·누락 리스크 제거 · 처리 시간 단축</div>
-      </div>
-      <div class="pc-footer">
-        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
-        <div class="pc-stack"><div class="dot" style="background:#E34F26"></div><div class="dot" style="background:#F7DF1E"></div></div>
-      </div>
-    </div>
-
-    <div class="project-card" data-tags="python excel">
-      <div class="pc-thumb t4">✉️</div>
-      <div class="pc-body">
-        <div class="pc-tags"><span class="pc-tag hi">Python</span><span class="pc-tag">Email Automation</span></div>
-        <div class="pc-title">엑셀 데이터 → 맞춤형 메일 자동 발송</div>
-        <div class="pc-desc">수천 줄 엑셀에서 납품 보고·프리미엄 리스트 대상 업체를 자동 추출하고, 개인화된 이메일을 클릭 한 번에 발송합니다. Python으로 구현한 업무 자동화 툴.</div>
-        <div class="pc-impact">효율 200% 향상 · 수동 발송 완전 제거</div>
-      </div>
-      <div class="pc-footer">
-        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
-        <div class="pc-stack"><div class="dot" style="background:#3776AB"></div><div class="dot" style="background:#217346"></div></div>
-      </div>
-    </div>
-
-    <div class="project-card" data-tags="html excel">
-      <div class="pc-thumb t5">🔍</div>
-      <div class="pc-body">
-        <div class="pc-tags"><span class="pc-tag hi">HTML · Excel</span><span class="pc-tag">Internal Tool</span></div>
-        <div class="pc-title">파트 정보 웹 검색 툴</div>
-        <div class="pc-desc">수백 개의 부품 데이터가 담긴 엑셀 파일을 웹에서 바로 검색·필터링할 수 있는 툴로 변환했습니다. 파트 번호·설명 키워드 입력 시 즉시 하이라이트 검색.</div>
-        <div class="pc-impact">파일 열기·검색 반복 제거 · 사내 표준 툴 도입</div>
-      </div>
-      <div class="pc-footer">
-        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
-        <div class="pc-stack"><div class="dot" style="background:#E34F26"></div><div class="dot" style="background:#217346"></div></div>
-      </div>
-    </div>
-
-    <div class="project-card" data-tags="ai python">
-      <div class="pc-thumb t6">🤖</div>
-      <div class="pc-body">
-        <div class="pc-tags"><span class="pc-tag hi">Claude API · Python</span><span class="pc-tag">AI Automation</span></div>
-        <div class="pc-title">PDF 40개 이름 자동화</div>
-        <div class="pc-desc">Claude API와 Python을 활용해 PDF 40개의 이름을 규칙 기반으로 자동 변환·저장하는 스크립트를 개발했습니다. 수작업 1시간을 수초 처리로 단축.</div>
-        <div class="pc-impact">수작업 1시간 → 수초 처리</div>
-      </div>
-      <div class="pc-footer">
-        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
-        <div class="pc-stack"><div class="dot" style="background:#3776AB"></div><div class="dot" style="background:#CC785C"></div></div>
-      </div>
-    </div>
-
-    <div class="project-card" data-tags="excel html">
-      <div class="pc-thumb t7">💰</div>
-      <div class="pc-body">
-        <div class="pc-tags"><span class="pc-tag hi">JS · SheetJS</span><span class="pc-tag">Sales Ops</span></div>
-        <div class="pc-title">커미션 계산 자동화 시스템</div>
-        <div class="pc-desc">월별 커미션 계산을 Vanilla JS와 SheetJS로 구현한 자동화 시스템. 내부 기준에 따른 복잡한 계산식을 자동 처리하고 결과를 즉시 내보냅니다.</div>
-        <div class="pc-impact">취합 시간 90% 단축</div>
-      </div>
-      <div class="pc-footer">
-        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
-        <div class="pc-stack"><div class="dot" style="background:#F7DF1E"></div><div class="dot" style="background:#217346"></div></div>
-      </div>
-    </div>
-
-    <div class="project-card" data-tags="html ai">
-      <div class="pc-thumb t8">🌐</div>
-      <div class="pc-body">
-        <div class="pc-tags"><span class="pc-tag hi">HTML · AI</span><span class="pc-tag">Trade · B2B</span></div>
-        <div class="pc-title">TradeScript — 무역 이메일 템플릿</div>
-        <div class="pc-desc">First Contact, Quotation, Negotiation, Shipment 등 무역 실무 상황별 영문 이메일 템플릿과 AI 생성기를 제공하는 웹 툴. 업종별 필터, Gmail·Outlook 연동.</div>
-        <div class="pc-impact">해외 거래처 대응 시간 단축 · 영문 작성 부담 제거</div>
-      </div>
-      <div class="pc-footer">
-        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
-        <div class="pc-stack"><div class="dot" style="background:#E34F26"></div><div class="dot" style="background:#CC785C"></div></div>
-      </div>
-    </div>
-
-  </div>
+  <div class="project-grid" id="projectGrid"></div>
 </section>
 
 <section class="about-strip" id="about">
@@ -308,14 +294,7 @@ footer p{font-size:0.72rem;color:var(--ink3);letter-spacing:0.04em}
   </div>
 </section>
 
-<section class="contact" id="contact">
-  <div class="contact-title">함께 일하고 싶다면</div>
-  <p class="contact-sub">글로벌 BizOps · Operations 포지션 오퍼 환영합니다.</p>
-  <div class="contact-links">
-    <a class="cbtn primary" href="mailto:yun****@gmail.com">이메일 보내기</a>
-    <a class="cbtn" href="https://small-vegi.tistory.com" target="_blank">블로그 보기</a>
-  </div>
-</section>
+
 
 <div style="max-width:1080px;margin:0 auto">
   <footer>
@@ -325,18 +304,170 @@ footer p{font-size:0.72rem;color:var(--ink3);letter-spacing:0.04em}
 </div>
 
 <script>
+const PW_HASH = 'b3152ebe9e7ee740b993b25719fa2ca19e7707791001dacb0d510faa9debb348';
+let isAdmin = false;
+
+const DEFAULT_PROJECTS = [
+  {id:'p1',title:'계약서 자동 생성기',emoji:'📄',thumb:'t1',tags:'excel html',tagsDisplay:'Excel · Word',impact:'작성 시간 50%+ 단축 · 팀 전원 도입',desc:'매번 복사·붙여넣기하던 계약서 작업을 웹 기반 툴 하나로 끝냈습니다. 병원명·원장명·주소·제품·금액을 입력하면 Word 파일이 자동 생성됩니다.',link:'https://small-vegi.tistory.com'},
+  {id:'p2',title:'영업 실적 대시보드',emoji:'📊',thumb:'t2',tags:'html',tagsDisplay:'HTML · JS',impact:'경영진 보고 자동화 · 분기 리포팅 시간 대폭 단축',desc:'일별·주별·월별·분기·연도별 뷰를 지원하는 HTML 대시보드. KPI 카드, 담당자별 성과, 지역별 매출 차트, 대표 보고용 BI 리포트 페이지까지 포함합니다.',link:'https://small-vegi.tistory.com'},
+  {id:'p3',title:'배차 메시지 생성기',emoji:'🚚',thumb:'t3',tags:'html',tagsDisplay:'HTML · JS',impact:'오배송·누락 리스크 제거 · 처리 시간 단축',desc:'상·하차지 주소, 담당자 연락처, 시간 정보를 입력하면 배차 메시지가 자동 완성됩니다. 물류 현장의 가장 반복적인 루틴을 클릭 몇 번으로 끝냅니다.',link:'https://small-vegi.tistory.com'},
+  {id:'p4',title:'엑셀 데이터 → 맞춤형 메일 자동 발송',emoji:'✉️',thumb:'t4',tags:'python excel',tagsDisplay:'Python',impact:'효율 200% 향상 · 수동 발송 완전 제거',desc:'수천 줄 엑셀에서 납품 보고·프리미엄 리스트 대상 업체를 자동 추출하고, 개인화된 이메일을 클릭 한 번에 발송합니다.',link:'https://small-vegi.tistory.com'},
+  {id:'p5',title:'파트 정보 웹 검색 툴',emoji:'🔍',thumb:'t5',tags:'html excel',tagsDisplay:'HTML · Excel',impact:'파일 열기·검색 반복 제거 · 사내 표준 툴 도입',desc:'수백 개의 부품 데이터가 담긴 엑셀 파일을 웹에서 바로 검색·필터링할 수 있는 툴로 변환했습니다. 파트 번호·설명 키워드 입력 시 즉시 하이라이트 검색.',link:'https://small-vegi.tistory.com'},
+  {id:'p6',title:'PDF 40개 이름 자동화',emoji:'🤖',thumb:'t6',tags:'ai python',tagsDisplay:'Claude API · Python',impact:'수작업 1시간 → 수초 처리',desc:'Claude API와 Python을 활용해 PDF 40개의 이름을 규칙 기반으로 자동 변환·저장하는 스크립트를 개발했습니다.',link:'https://small-vegi.tistory.com'},
+  {id:'p7',title:'커미션 계산 자동화 시스템',emoji:'💰',thumb:'t7',tags:'excel html',tagsDisplay:'JS · SheetJS',impact:'취합 시간 90% 단축',desc:'월별 커미션 계산을 Vanilla JS와 SheetJS로 구현한 자동화 시스템. 내부 기준에 따른 복잡한 계산식을 자동 처리하고 결과를 즉시 내보냅니다.',link:'https://small-vegi.tistory.com'},
+  {id:'p8',title:'TradeScript — 무역 이메일 템플릿',emoji:'🌐',thumb:'t8',tags:'html ai',tagsDisplay:'HTML · AI',impact:'해외 거래처 대응 시간 단축 · 영문 작성 부담 제거',desc:'First Contact, Quotation, Negotiation, Shipment 등 무역 실무 상황별 영문 이메일 템플릿과 AI 생성기를 제공하는 웹 툴. 업종별 필터, Gmail·Outlook 연동.',link:'https://small-vegi.tistory.com'},
+];
+
+function getProjects() {
+  try {
+    const saved = localStorage.getItem('portfolio_projects');
+    return saved ? JSON.parse(saved) : DEFAULT_PROJECTS;
+  } catch(e) { return DEFAULT_PROJECTS; }
+}
+
+function saveProjects(projects) {
+  try { localStorage.setItem('portfolio_projects', JSON.stringify(projects)); } catch(e) {}
+}
+
+function renderProjects() {
+  const projects = getProjects();
+  const grid = document.getElementById('projectGrid');
+  grid.innerHTML = '';
+  projects.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.dataset.tags = p.tags;
+    card.dataset.id = p.id;
+    card.style.animationDelay = (i * 0.05) + 's';
+    card.style.animation = 'fadeUp 0.5s ease both';
+    card.innerHTML = `
+      <button class="delete-btn" onclick="deleteProject('${p.id}')" title="삭제">✕</button>
+      <div class="pc-thumb ${p.thumb}">${p.emoji}</div>
+      <div class="pc-body">
+        <div class="pc-tags"><span class="pc-tag hi">${p.tagsDisplay}</span></div>
+        <div class="pc-title">${p.title}</div>
+        <div class="pc-desc">${p.desc}</div>
+        <div class="pc-impact">${p.impact}</div>
+      </div>
+      <div class="pc-footer">
+        <a class="pc-link" href="${p.link}" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.getElementById('statCount').innerHTML = projects.length + '<span>+</span>';
+  if (isAdmin) document.body.classList.add('admin-mode');
+  reapplyFilter();
+}
+
+function reapplyFilter() {
+  const activeBtn = document.querySelector('.filter-btn.active');
+  const tag = activeBtn ? activeBtn.getAttribute('onclick').match(/'([^']+)'/)?.[1] : 'all';
+  if (tag && tag !== 'all') {
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.classList.toggle('hidden', !card.dataset.tags.includes(tag));
+    });
+  }
+}
+
 function filterProjects(tag, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.project-card').forEach(card => {
-    if (tag === 'all') {
-      card.classList.remove('hidden');
-    } else {
-      const tags = card.dataset.tags || '';
-      card.classList.toggle('hidden', !tags.includes(tag));
-    }
+    if (tag === 'all') card.classList.remove('hidden');
+    else card.classList.toggle('hidden', !card.dataset.tags.includes(tag));
   });
 }
+
+function toggleAdmin() {
+  if (isAdmin) {
+    isAdmin = false;
+    document.body.classList.remove('admin-mode');
+    document.getElementById('adminBtn').textContent = '🔒 관리';
+    document.getElementById('adminBtn').classList.remove('unlocked');
+    document.getElementById('addPanel').classList.remove('visible');
+  } else {
+    document.getElementById('modalOverlay').classList.add('visible');
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwError').style.display = 'none';
+    setTimeout(() => document.getElementById('pwInput').focus(), 100);
+  }
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('visible');
+}
+
+async function sha256(msg) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function confirmPw() {
+  const val = document.getElementById('pwInput').value;
+  const hash = await sha256(val);
+  if (hash === PW_HASH) {
+    closeModal();
+    isAdmin = true;
+    document.body.classList.add('admin-mode');
+    document.getElementById('adminBtn').textContent = '🔓 관리 중';
+    document.getElementById('adminBtn').classList.add('unlocked');
+    document.getElementById('addPanel').classList.add('visible');
+    document.getElementById('projects').scrollIntoView({behavior:'smooth'});
+  } else {
+    document.getElementById('pwError').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+function toggleAddPanel() {
+  document.getElementById('addPanel').classList.toggle('visible');
+}
+
+function addProject() {
+  const title = document.getElementById('f-title').value.trim();
+  const emoji = document.getElementById('f-emoji').value.trim() || '🔧';
+  const desc = document.getElementById('f-desc').value.trim();
+  const impact = document.getElementById('f-impact').value.trim();
+  const link = document.getElementById('f-link').value.trim() || 'https://small-vegi.tistory.com';
+  const tagsDisplay = document.getElementById('f-tags-display').value.trim();
+  const tags = document.getElementById('f-filter').value;
+  const thumb = document.getElementById('f-thumb').value;
+
+  if (!title || !desc) { alert('제목과 설명은 필수예요!'); return; }
+
+  const projects = getProjects();
+  const newProject = {
+    id: 'p' + Date.now(),
+    title, emoji, thumb, tags,
+    tagsDisplay: tagsDisplay || tags,
+    impact: impact || '업무 효율 향상',
+    desc, link
+  };
+  projects.push(newProject);
+  saveProjects(projects);
+  renderProjects();
+
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-emoji').value = '';
+  document.getElementById('f-desc').value = '';
+  document.getElementById('f-impact').value = '';
+  document.getElementById('f-link').value = '';
+  document.getElementById('f-tags-display').value = '';
+}
+
+function deleteProject(id) {
+  if (!confirm('이 프로젝트를 삭제할까요?')) return;
+  const projects = getProjects().filter(p => p.id !== id);
+  saveProjects(projects);
+  renderProjects();
+}
+
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+renderProjects();
 </script>
 </body>
 </html>
