@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>박윤아 — Ops Automation Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F4F1EC;
+  --bg2:#EDEAE3;
+  --card:#FAFAF8;
+  --ink:#1C1A17;
+  --ink2:#6B6860;
+  --ink3:#A8A69F;
+  --accent:#B85C2A;
+  --accent-bg:#F5E4D9;
+  --border:rgba(28,26,23,0.1);
+  --border2:rgba(28,26,23,0.07);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;min-height:100vh}
+
+nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 5vw;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--ink);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:2rem}
+.nav-right a{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink2);text-decoration:none;transition:color 0.2s}
+.nav-right a:hover{color:var(--accent)}
+.nav-badge{font-size:0.7rem;padding:4px 10px;border:0.5px solid var(--border);border-radius:20px;color:var(--ink2);letter-spacing:0.06em}
+
+.hero{max-width:1080px;margin:0 auto;padding:7rem 5vw 5rem;display:grid;grid-template-columns:3fr 2fr;gap:5rem;align-items:center}
+.hero-eyebrow{font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--accent);display:inline-block}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.8rem,5.5vw,4.5rem);line-height:1.05;letter-spacing:-0.025em;margin-bottom:1.75rem}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{font-size:0.93rem;color:var(--ink2);line-height:1.8;max-width:440px}
+.hero-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border-radius:14px;overflow:hidden;border:0.5px solid var(--border)}
+.hc{background:var(--card);padding:1.5rem 1.25rem}
+.hc-n{font-family:'DM Serif Display',serif;font-size:2.2rem;line-height:1;color:var(--ink);margin-bottom:0.2rem}
+.hc-n span{font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:400;color:var(--accent)}
+.hc-l{font-size:0.73rem;color:var(--ink3);letter-spacing:0.04em}
+
+.divider{max-width:1080px;margin:0 auto;padding:0 5vw}
+.divider hr{border:none;border-top:0.5px solid var(--border)}
+
+.section{max-width:1080px;margin:0 auto;padding:5rem 5vw}
+.section-label{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3)}
+.section-title{font-family:'DM Serif Display',serif;font-size:2rem;letter-spacing:-0.02em;margin-top:0.5rem;margin-bottom:2.5rem}
+
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2.5rem}
+.filter-btn{font-size:0.72rem;padding:6px 14px;border-radius:20px;border:0.5px solid var(--border);background:transparent;color:var(--ink2);cursor:pointer;letter-spacing:0.06em;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+.filter-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
+.project-card{background:var(--card);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;transition:transform 0.25s,box-shadow 0.25s}
+.project-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(28,26,23,0.09)}
+.project-card.hidden{display:none}
+
+.pc-thumb{height:156px;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.t1{background:#EAF2EA}.t2{background:#E8EEF8}.t3{background:#F8EEE8}.t4{background:#EEE8F8}.t5{background:#F8F4E8}.t6{background:#E8F4F4}.t7{background:#F4E8F4}.t8{background:#F4F0E8}
+
+.pc-body{padding:1.4rem}
+.pc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:0.85rem}
+.pc-tag{font-size:0.65rem;padding:3px 8px;border-radius:4px;letter-spacing:0.06em;background:var(--bg2);color:var(--ink3)}
+.pc-tag.hi{background:var(--accent-bg);color:var(--accent)}
+.pc-title{font-family:'DM Serif Display',serif;font-size:1.12rem;line-height:1.25;margin-bottom:0.55rem;letter-spacing:-0.01em}
+.pc-desc{font-size:0.81rem;color:var(--ink2);line-height:1.7;margin-bottom:0.9rem}
+.pc-impact{font-size:0.77rem;color:var(--accent);display:flex;align-items:center;gap:5px}
+.pc-impact::before{content:'↑';font-size:0.85rem}
+
+.pc-footer{padding:0.9rem 1.4rem;border-top:0.5px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
+.pc-link{font-size:0.7rem;letter-spacing:0.06em;color:var(--ink3);text-decoration:none;transition:color 0.2s;display:flex;align-items:center;gap:4px}
+.pc-link:hover{color:var(--accent)}
+.pc-link svg{width:11px;height:11px}
+.pc-stack{display:flex;gap:4px}
+.dot{width:7px;height:7px;border-radius:50%}
+
+.about-strip{background:var(--ink);color:#fff;padding:5rem 5vw}
+.about-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about-left p{font-family:'DM Serif Display',serif;font-size:clamp(1.4rem,3vw,2.1rem);line-height:1.38;letter-spacing:-0.02em;color:#fff}
+.about-left p em{font-style:italic;color:#D4956F}
+.about-right{display:flex;flex-direction:column;gap:1.5rem}
+.about-item{display:flex;gap:1rem;align-items:flex-start}
+.about-num{font-family:'DM Serif Display',serif;font-size:1.7rem;color:#D4956F;line-height:1;min-width:44px}
+.about-text strong{display:block;font-size:0.84rem;font-weight:500;color:#fff;margin-bottom:0.2rem}
+.about-text span{font-size:0.79rem;color:rgba(255,255,255,0.5);line-height:1.55}
+
+.contact{max-width:1080px;margin:0 auto;padding:5rem 5vw;text-align:center}
+.contact-title{font-family:'DM Serif Display',serif;font-size:2.4rem;letter-spacing:-0.02em;margin-bottom:0.9rem}
+.contact-sub{font-size:0.88rem;color:var(--ink2);margin-bottom:2.25rem}
+.contact-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.cbtn{font-size:0.78rem;padding:10px 22px;border-radius:6px;text-decoration:none;letter-spacing:0.06em;border:0.5px solid var(--border);color:var(--ink2);transition:all 0.2s}
+.cbtn:hover{border-color:var(--ink);color:var(--ink)}
+.cbtn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cbtn.primary:hover{background:var(--accent);border-color:var(--accent)}
+
+footer{border-top:0.5px solid var(--border);padding:2rem 5vw;display:flex;justify-content:space-between;align-items:center;max-width:1080px;margin:0 auto}
+footer p{font-size:0.72rem;color:var(--ink3);letter-spacing:0.04em}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.hero{animation:fadeUp 0.65s ease both}
+.project-card{animation:fadeUp 0.5s ease both}
+.project-card:nth-child(1){animation-delay:.05s}
+.project-card:nth-child(2){animation-delay:.1s}
+.project-card:nth-child(3){animation-delay:.15s}
+.project-card:nth-child(4){animation-delay:.2s}
+.project-card:nth-child(5){animation-delay:.25s}
+.project-card:nth-child(6){animation-delay:.3s}
+.project-card:nth-child(7){animation-delay:.35s}
+.project-card:nth-child(8){animation-delay:.4s}
+
+@media(max-width:700px){
+  .hero{grid-template-columns:1fr;gap:3rem;padding:4rem 5vw 3rem}
+  .about-inner{grid-template-columns:1fr;gap:2.5rem}
+  .nav-badge{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Yuna Park</a>
+  <div class="nav-right">
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <span class="nav-badge">BizOps · Automation</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow">Ops Automation Portfolio</div>
+    <h1>반복되는 일은<br><em>기계에게.</em><br>판단은 사람에게.</h1>
+    <p class="hero-sub">무역·영업 오퍼레이션 7년 실무자가 직접 발견하고, 직접 만든 자동화 툴 모음입니다. Excel, Python, HTML, AI까지 — 현장에서 실제로 쓰이고 있습니다.</p>
+  </div>
+  <div>
+    <div class="hero-cards">
+      <div class="hc"><div class="hc-n">8<span>+</span></div><div class="hc-l">자동화 프로젝트</div></div>
+      <div class="hc"><div class="hc-n">7<span>yr</span></div><div class="hc-l">무역·Ops 실무</div></div>
+      <div class="hc"><div class="hc-n">90<span>%</span></div><div class="hc-l">업무시간 단축</div></div>
+      <div class="hc"><div class="hc-n">6<span>개국</span></div><div class="hc-l">Cross-border Ops</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<section class="section" id="projects">
+  <div class="section-label">Work · Projects</div>
+  <div class="section-title">직접 만든 것들</div>
+
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="filterProjects('all',this)">전체</button>
+    <button class="filter-btn" onclick="filterProjects('excel',this)">Excel</button>
+    <button class="filter-btn" onclick="filterProjects('python',this)">Python</button>
+    <button class="filter-btn" onclick="filterProjects('html',this)">HTML · Web</button>
+    <button class="filter-btn" onclick="filterProjects('ai',this)">AI</button>
+  </div>
+
+  <div class="project-grid" id="projectGrid">
+
+    <div class="project-card" data-tags="excel html">
+      <div class="pc-thumb t1">📄</div>
+      <div class="pc-body">
+        <div class="pc-tags"><span class="pc-tag hi">Excel · Word</span><span class="pc-tag">Sales Ops</span></div>
+        <div class="pc-title">계약서 자동 생성기</div>
+        <div class="pc-desc">매번 복사·붙여넣기하던 계약서 작업을 웹 기반 툴 하나로 끝냈습니다. 병원명·원장명·주소·제품·금액을 입력하면 Word 파일이 자동 생성됩니다.</div>
+        <div class="pc-impact">작성 시간 50%+ 단축 · 팀 전원 도입</div>
+      </div>
+      <div class="pc-footer">
+        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
+        <div class="pc-stack"><div class="dot" style="background:#217346"></div><div class="dot" style="background:#2B5797"></div></div>
+      </div>
+    </div>
+
+    <div class="project-card" data-tags="html">
+      <div class="pc-thumb t2">📊</div>
+      <div class="pc-body">
+        <div class="pc-tags"><span class="pc-tag hi">HTML · JS</span><span class="pc-tag">Dashboard</span></div>
+        <div class="pc-title">영업 실적 대시보드</div>
+        <div class="pc-desc">일별·주별·월별·분기·연도별 뷰를 지원하는 HTML 대시보드. KPI 카드, 담당자별 성과, 지역별 매출 차트, 대표 보고용 BI 리포트 페이지까지 포함합니다.</div>
+        <div class="pc-impact">경영진 보고 자동화 · 분기 리포팅 시간 대폭 단축</div>
+      </div>
+      <div class="pc-footer">
+        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
+        <div class="pc-stack"><div class="dot" style="background:#E34F26"></div><div class="dot" style="background:#F7DF1E"></div></div>
+      </div>
+    </div>
+
+    <div class="project-card" data-tags="html">
+      <div class="pc-thumb t3">🚚</div>
+      <div class="pc-body">
+        <div class="pc-tags"><span class="pc-tag hi">HTML · JS</span><span class="pc-tag">Logistics</span></div>
+        <div class="pc-title">배차 메시지 생성기</div>
+        <div class="pc-desc">상·하차지 주소, 담당자 연락처, 시간 정보를 입력하면 배차 메시지가 자동 완성됩니다. 물류 현장의 가장 반복적인 루틴을 클릭 몇 번으로 끝냅니다.</div>
+        <div class="pc-impact">오배송·누락 리스크 제거 · 처리 시간 단축</div>
+      </div>
+      <div class="pc-footer">
+        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
+        <div class="pc-stack"><div class="dot" style="background:#E34F26"></div><div class="dot" style="background:#F7DF1E"></div></div>
+      </div>
+    </div>
+
+    <div class="project-card" data-tags="python excel">
+      <div class="pc-thumb t4">✉️</div>
+      <div class="pc-body">
+        <div class="pc-tags"><span class="pc-tag hi">Python</span><span class="pc-tag">Email Automation</span></div>
+        <div class="pc-title">엑셀 데이터 → 맞춤형 메일 자동 발송</div>
+        <div class="pc-desc">수천 줄 엑셀에서 납품 보고·프리미엄 리스트 대상 업체를 자동 추출하고, 개인화된 이메일을 클릭 한 번에 발송합니다. Python으로 구현한 업무 자동화 툴.</div>
+        <div class="pc-impact">효율 200% 향상 · 수동 발송 완전 제거</div>
+      </div>
+      <div class="pc-footer">
+        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
+        <div class="pc-stack"><div class="dot" style="background:#3776AB"></div><div class="dot" style="background:#217346"></div></div>
+      </div>
+    </div>
+
+    <div class="project-card" data-tags="html excel">
+      <div class="pc-thumb t5">🔍</div>
+      <div class="pc-body">
+        <div class="pc-tags"><span class="pc-tag hi">HTML · Excel</span><span class="pc-tag">Internal Tool</span></div>
+        <div class="pc-title">파트 정보 웹 검색 툴</div>
+        <div class="pc-desc">수백 개의 부품 데이터가 담긴 엑셀 파일을 웹에서 바로 검색·필터링할 수 있는 툴로 변환했습니다. 파트 번호·설명 키워드 입력 시 즉시 하이라이트 검색.</div>
+        <div class="pc-impact">파일 열기·검색 반복 제거 · 사내 표준 툴 도입</div>
+      </div>
+      <div class="pc-footer">
+        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
+        <div class="pc-stack"><div class="dot" style="background:#E34F26"></div><div class="dot" style="background:#217346"></div></div>
+      </div>
+    </div>
+
+    <div class="project-card" data-tags="ai python">
+      <div class="pc-thumb t6">🤖</div>
+      <div class="pc-body">
+        <div class="pc-tags"><span class="pc-tag hi">Claude API · Python</span><span class="pc-tag">AI Automation</span></div>
+        <div class="pc-title">PDF 40개 이름 자동화</div>
+        <div class="pc-desc">Claude API와 Python을 활용해 PDF 40개의 이름을 규칙 기반으로 자동 변환·저장하는 스크립트를 개발했습니다. 수작업 1시간을 수초 처리로 단축.</div>
+        <div class="pc-impact">수작업 1시간 → 수초 처리</div>
+      </div>
+      <div class="pc-footer">
+        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
+        <div class="pc-stack"><div class="dot" style="background:#3776AB"></div><div class="dot" style="background:#CC785C"></div></div>
+      </div>
+    </div>
+
+    <div class="project-card" data-tags="excel html">
+      <div class="pc-thumb t7">💰</div>
+      <div class="pc-body">
+        <div class="pc-tags"><span class="pc-tag hi">JS · SheetJS</span><span class="pc-tag">Sales Ops</span></div>
+        <div class="pc-title">커미션 계산 자동화 시스템</div>
+        <div class="pc-desc">월별 커미션 계산을 Vanilla JS와 SheetJS로 구현한 자동화 시스템. 내부 기준에 따른 복잡한 계산식을 자동 처리하고 결과를 즉시 내보냅니다.</div>
+        <div class="pc-impact">취합 시간 90% 단축</div>
+      </div>
+      <div class="pc-footer">
+        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
+        <div class="pc-stack"><div class="dot" style="background:#F7DF1E"></div><div class="dot" style="background:#217346"></div></div>
+      </div>
+    </div>
+
+    <div class="project-card" data-tags="html ai">
+      <div class="pc-thumb t8">🌐</div>
+      <div class="pc-body">
+        <div class="pc-tags"><span class="pc-tag hi">HTML · AI</span><span class="pc-tag">Trade · B2B</span></div>
+        <div class="pc-title">TradeScript — 무역 이메일 템플릿</div>
+        <div class="pc-desc">First Contact, Quotation, Negotiation, Shipment 등 무역 실무 상황별 영문 이메일 템플릿과 AI 생성기를 제공하는 웹 툴. 업종별 필터, Gmail·Outlook 연동.</div>
+        <div class="pc-impact">해외 거래처 대응 시간 단축 · 영문 작성 부담 제거</div>
+      </div>
+      <div class="pc-footer">
+        <a class="pc-link" href="https://small-vegi.tistory.com" target="_blank">블로그에서 보기 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>
+        <div class="pc-stack"><div class="dot" style="background:#E34F26"></div><div class="dot" style="background:#CC785C"></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="about-strip" id="about">
+  <div class="about-inner">
+    <div class="about-left">
+      <p>"불편한 걸 그냥 넘기지 않는 편입니다.<br><em>반복되면 고쳐야 한다고 생각해요."</em></p>
+    </div>
+    <div class="about-right">
+      <div class="about-item">
+        <div class="about-num">7yr</div>
+        <div class="about-text">
+          <strong>Cross-border Operations</strong>
+          <span>6개국 수출입, 월 35건 B2B 거래 운영<br>T/T · L/C · 통관 · 포워딩 · SCM 전반</span>
+        </div>
+      </div>
+      <div class="about-item">
+        <div class="about-num">EN</div>
+        <div class="about-text">
+          <strong>비즈니스 영어</strong>
+          <span>OPIc AL · TOEIC 945 · 무역영어 1급<br>해외 공급사 영문 이메일·전화 일상 대응</span>
+        </div>
+      </div>
+      <div class="about-item">
+        <div class="about-num">CRM</div>
+        <div class="about-text">
+          <strong>Salesforce · ERP 운영</strong>
+          <span>고객 데이터 master 관리, 정기 클렌징<br>영업 실적 분석 및 KPI 리포팅</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-title">함께 일하고 싶다면</div>
+  <p class="contact-sub">글로벌 BizOps · Operations 포지션 오퍼 환영합니다.</p>
+  <div class="contact-links">
+    <a class="cbtn primary" href="mailto:yun****@gmail.com">이메일 보내기</a>
+    <a class="cbtn" href="https://small-vegi.tistory.com" target="_blank">블로그 보기</a>
+  </div>
+</section>
+
+<div style="max-width:1080px;margin:0 auto">
+  <footer>
+    <p>© 2026 Yuna Park — Ops Automation Portfolio</p>
+    <p>Built with HTML · Updated as I build</p>
+  </footer>
+</div>
+
+<script>
+function filterProjects(tag, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.project-card').forEach(card => {
+    if (tag === 'all') {
+      card.classList.remove('hidden');
+    } else {
+      const tags = card.dataset.tags || '';
+      card.classList.toggle('hidden', !tags.includes(tag));
+    }
+  });
+}
+</script>
+</body>
+</html>
